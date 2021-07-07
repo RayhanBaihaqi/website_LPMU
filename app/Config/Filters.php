@@ -2,6 +2,7 @@
 
 namespace Config;
 
+use App\Filters\AuthFilter;
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Filters\CSRF;
 use CodeIgniter\Filters\DebugToolbar;
@@ -19,6 +20,7 @@ class Filters extends BaseConfig
 		'csrf'     => CSRF::class,
 		'toolbar'  => DebugToolbar::class,
 		'honeypot' => Honeypot::class,
+		'authFilter' => \App\Filters\AuthFilter::class,
 	];
 
 	/**
@@ -29,10 +31,12 @@ class Filters extends BaseConfig
 	 */
 	public $globals = [
 		'before' => [
+			'authFilter' => ['except' => ['/', 'auth/*', 'frontend/*']],
 			// 'honeypot',
 			// 'csrf',
 		],
 		'after'  => [
+			'authFilter' => ['except' => ['/backend', '/backend/*']],
 			'toolbar',
 			// 'honeypot',
 		],
